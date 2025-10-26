@@ -25,12 +25,15 @@ $tca = [
             'fe_group' => 'fe_group',
         ],
         'iconfile' => 'EXT:html5videoplayer/Resources/Public/Icons/Video.png',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ],
     ],
     'columns' => [
         'sys_language_uid' => [
             'exclude' => true,
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-            'config' => $typo3Version->getMajorVersion() === 11 ?
+            'config' => $typo3Version->getMajorVersion() >= 11 ?
                 ['type' => 'language'] :
                 [
                     'type' => 'select',
@@ -116,7 +119,6 @@ $tca = [
                 ]
             ]
         ],
-        'fe_group' => $GLOBALS['TCA']['tt_content']['columns']['fe_group'],
         'title' => [
             'exclude' => false,
             'label' => 'LLL:EXT:html5videoplayer/Resources/Private/Language/locallang.xlf:tx_html5videoplayer_domain_model_video.title',

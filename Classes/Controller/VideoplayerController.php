@@ -45,6 +45,7 @@ class VideoplayerController extends ActionController
     public function __construct(
         protected AssetCollector $assetCollector,
         protected VideoRepository $videoRepository,
+        protected FrontendConfigurationManager $feConfigManager
     )
     {
     }
@@ -56,12 +57,10 @@ class VideoplayerController extends ActionController
      */
     public function initializeAction(): void
     {
-        $this->configuration = $this->settings['videoplayer'];
+        $this->configuration = $this->settings['videoplayer'] ?? [];
 
         // Check Xhtml Cleaning
-        /** @var FrontendConfigurationManager $feConfigManager */
-        $feConfigManager = GeneralUtility::makeInstance(FrontendConfigurationManager::class);
-        $typoScript = $feConfigManager->getTypoScriptSetup();
+        $typoScript = $this->feConfigManager->getTypoScriptSetup($this->request);
         if (isset($typoScript['config.']['xhtml_cleaning']) && in_array(trim($typoScript['config.']['xhtml_cleaning']),
                 [
                     'all',
@@ -99,7 +98,7 @@ class VideoplayerController extends ActionController
      */
     protected function getCurrentVideos(): array
     {
-        $contentObject = $this->configurationManager->getContentObject();
+        $contentObject = $this->request->getAttribute('currentContentObject');
         $contentElement = $contentObject->data;
 
         if (isset($this->settings['videoUids']['_typoScriptNodeValue'])) {

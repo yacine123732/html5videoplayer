@@ -7,6 +7,9 @@ return [
         'hideTable' => true,
         'sortby' => 'sorting',
         'iconfile' => 'EXT:html5videoplayer/Resources/Public/Icons/VideoContent.png',
+        'security' => [
+			'ignorePageTypeRestriction' => true,
+		],
     ],
     'columns' => [
         'content_uid' => [
